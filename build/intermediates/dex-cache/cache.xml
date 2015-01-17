@@ -16,18 +16,18 @@
         <dex dex="/home/ankit/Coding/MHacks/AlarmClock/app/build/intermediates/pre-dexed/debug/classes-13edc2c4c1dbd4c314f32e4be06895dc49444e87.jar" />
     </item>
     <item
-        jar="/home/ankit/Coding/MHacks/AlarmClock/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/home/ankit/Coding/MHacks/AlarmClock/app/build/intermediates/pre-dexed/debug/classes-f7b1ea1766a50ce31af9095f5b8612fece4aff40.jar" />
-    </item>
-    <item
         jar="/home/ankit/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
         <dex dex="/home/ankit/Coding/MHacks/AlarmClock/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-213e15cc8cb90585706fbadcc4dca0ea76ece708.jar" />
+    </item>
+    <item
+        jar="/home/ankit/Coding/MHacks/AlarmClock/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/home/ankit/Coding/MHacks/AlarmClock/app/build/intermediates/pre-dexed/debug/classes-f7b1ea1766a50ce31af9095f5b8612fece4aff40.jar" />
     </item>
 
 </items>

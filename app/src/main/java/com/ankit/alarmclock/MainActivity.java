@@ -16,10 +16,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -29,7 +31,7 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
 
     AlarmManager alarmManager;
     private PendingIntent pendingIntent;
-    private TimePicker timebutton;
+    private TimePicker timeChooser;
     private static MainActivity inst;
 
     public static MainActivity instance(){
@@ -46,7 +48,19 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        timebutton = (TimePicker)
+        timeChooser = (TimePicker)findViewById(R.id.timeChooser);
+        Button timebutton = (Button)findViewById(R.id.timebutton);
+        alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+    }
+
+    public void onClick(View view){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, timeChooser.getCurrentHour());
+        calendar.set(Calendar.MINUTE, timeChooser.getCurrentMinute());
+        Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        Toast.makeText(this, "Alarm Scheduled", Toast.LENGTH_SHORT).show();
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,myIntent, 0);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 
    /* public void scheduleAlarm(View v){
