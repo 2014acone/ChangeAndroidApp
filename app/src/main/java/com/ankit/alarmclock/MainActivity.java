@@ -23,18 +23,33 @@ import android.widget.Toast;
 import java.util.GregorianCalendar;
 
 
-public class MainActivity extends FragmentActivity implements TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener {
-    private int pickerHour = 0, pickerMin = 0, pickerDay = 0, pickerMonth = -1, pickerYear = 0;
+public class MainActivity extends Activity{//FragmentActivity implements TimePickerDialog.OnTimeSetListener,
+        //DatePickerDialog.OnDateSetListener
+    //private int pickerHour = 0, pickerMin = 0, pickerDay = 0, pickerMonth = -1, pickerYear = 0;
 
+    AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
+    private TimePicker timebutton;
+    private static MainActivity inst;
+
+    public static MainActivity instance(){
+        return inst;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        inst=this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        timebutton = (TimePicker)
     }
 
-    public void scheduleAlarm(View v){
+   /* public void scheduleAlarm(View v){
         Long time = new GregorianCalendar().getTimeInMillis()+5*1000;
         long alarmTime = (time - new GregorianCalendar().getTimeInMillis())/1000;
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
@@ -68,7 +83,7 @@ public class MainActivity extends FragmentActivity implements TimePickerDialog.O
         pickerMonth = month; //indexes from 0
         pickerYear = year;
         Toast.makeText(this, month + "/" + day + "/" + year, Toast.LENGTH_LONG).show();
-    }
+    }*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
