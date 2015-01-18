@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ankit.alarmclock" >
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -10,6 +11,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <service android:name=".RingtonePlayingService"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -20,6 +22,8 @@
             </intent-filter>
         </activity>
         <receiver android:name=".AlarmReceiver"/>
+        <activity android:name=".HTTPPostActivity"/>
+        <activity android:name=".Main"/>
     </application>
 
 </manifest>

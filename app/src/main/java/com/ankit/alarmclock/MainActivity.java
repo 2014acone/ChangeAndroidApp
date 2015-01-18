@@ -47,7 +47,7 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_ankit);
         timeChooser = (TimePicker)findViewById(R.id.timeChooser);
         Button timebutton = (Button)findViewById(R.id.timebutton);
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
@@ -61,6 +61,8 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
         Toast.makeText(this, "Alarm Scheduled", Toast.LENGTH_SHORT).show();
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,myIntent, 0);
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        Intent intent = new Intent(this, Main.class);
+        startActivity(intent);
     }
 
    /* public void scheduleAlarm(View v){
@@ -98,25 +100,4 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
         pickerYear = year;
         Toast.makeText(this, month + "/" + day + "/" + year, Toast.LENGTH_LONG).show();
     }*/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

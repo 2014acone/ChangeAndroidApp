@@ -17,12 +17,15 @@ import android.widget.Toast;
 public class AlarmReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent){
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null){
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
+       Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        //if (alarmUri == null){
+          //  alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //}
         Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
         ringtone.play();
         Toast.makeText(context, "Alarm Triggered", Toast.LENGTH_LONG).show();
+
+
+
     }
 }

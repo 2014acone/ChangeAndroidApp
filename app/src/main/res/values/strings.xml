@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AlarmClock</string>
+    <string name="app_name">Change</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <color name="salmon">#E94C70</color>
     <string name="button_name">Set Alarm</string>
+
 </resources>
