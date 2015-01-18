@@ -2,31 +2,20 @@ package com.ankit.alarmclock;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v4.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.PendingIntent;
 import android.content.Context;
+import android.media.RingtoneManager;
+import android.os.CountDownTimer;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 
 public class MainActivity extends Activity{//FragmentActivity implements TimePickerDialog.OnTimeSetListener,
@@ -38,6 +27,7 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
     private PendingIntent pendingIntent;
     private TimePicker timeChooser;
     private static MainActivity inst;
+    private int totalTime;
 
     public static MainActivity instance(){
         return inst;
@@ -52,62 +42,63 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_ankit);
+        setContentView(R.layout.activity_main);
         timeChooser = (TimePicker)findViewById(R.id.timeChooser);
+        timeChooser.setIs24HourView(true);
+        timeChooser.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         Button timebutton = (Button)findViewById(R.id.timebutton);
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
     }
 
     public void onClick(View view){
         Calendar calendar = Calendar.getInstance();
+        int hour = timeChooser.getCurrentHour();
+        Log.d("hour" , " "+ hour);
+        Log.d("hour"," " + calendar.get(Calendar.HOUR_OF_DAY));
+        int minute = timeChooser.getCurrentMinute();
+        Log.d("minute" , " " +minute);
+        Log.d("minute", " "+calendar.get(Calendar.MINUTE));
+        int hours = (Math.abs(hour - calendar.get(Calendar.HOUR_OF_DAY)))*60*60*1000;
+        Log.d("hours" , " "+ hours);
+        int minutes = Math.abs((minute * 60 *1000)-(calendar.get(Calendar.MINUTE)*60*1000));
+        Log.d("minutes" , " "+ minutes);
+        int milHours = calendar.get(Calendar.HOUR_OF_DAY)*60*60*1000;
+        int milMin = calendar.get(Calendar.MINUTE)*60*1000;
+        int milhour = hour * 60*60*1000;
+        int milmin = minute * 60 * 1000;
         calendar.set(Calendar.HOUR_OF_DAY, timeChooser.getCurrentHour());
         calendar.set(Calendar.MINUTE, timeChooser.getCurrentMinute());
-        //int hour = timeChooser.getCurrentHour()*60*60*1000;
-        //int minute = timeChooser.getCurrentMinute()*60*1000;
-        //int totalTime = hour+minute;
-        Intent myIntent = new Intent(this, AlarmReceiver.class);
+        int milCalc = Math.abs(milhour - milHours)+Math.abs(milmin-milMin);
+        int totalTime = hours + minutes;
+        //totalTime = hour+minute;
+        //Intent myIntent = new Intent(this, AlarmReceiver.class);
         Toast.makeText(this, "Alarm Scheduled", Toast.LENGTH_SHORT).show();
-        pendingIntent = PendingIntent.getBroadcast(this,0,myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //pendingIntent = PendingIntent.getBroadcast(this,0,myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
        //Log.d("thing", " " + alarmManager );
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         //alarmManager.cancel(pendingIntent);
+        Log.d("calendar", " " + calendar.getTimeInMillis());
+        Log.d("calculated", " " + totalTime);
+        Log.d("second calc", " " + milCalc);
         Intent intent = new Intent(this, Main.class);
         startActivity(intent);
-    }
-/*
-   public void scheduleAlarm(View v){
-        Long time = new GregorianCalendar().getTimeInMillis()+5*1000;
-        long alarmTime = (time - new GregorianCalendar().getTimeInMillis())/1000;
-        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, time, PendingIntent.getBroadcast(this, 1, intentAlarm,
-                PendingIntent.FLAG_UPDATE_CURRENT));
-        Toast.makeText(this, "Alarm Scheduled for " + alarmTime + " seconds",Toast.LENGTH_LONG).show();
-    }
-/*
-    public void showTimePickerDialog(View v){
-        android.app.FragmentManager fm = this.getFragmentManager();
-        android.app.DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(fm, "timePicker");
-    }
+        Intent i = new Intent(getApplicationContext(), Main.class);
+        i.putExtra("time", milCalc);
+        i.putExtra("hour", hour);
+        i.putExtra("minute", minute);
+        startActivity(i);
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute){
-        pickerHour = hourOfDay;
-        pickerMin = minute;
-        Toast.makeText(this, hourOfDay + ":" + minute, Toast.LENGTH_LONG).show();
     }
+   /*CountDownTimer count = new CountDownTimer(3000, 1000){
 
-    public void showDatePickerDialog(View v){
-        android.app.FragmentManager fm = this.getFragmentManager();
-        android.app.DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(fm, "datePicker");
-    }
+       public void onTick(long millisUntilFinished){
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        pickerDay = day;
-        pickerMonth = month; //indexes from 0
-        pickerYear = year;
-        Toast.makeText(this, month + "/" + day + "/" + year, Toast.LENGTH_LONG).show();
-    }*/
+       }
+       public void onFinish(){
+           RingtonePlayingService hi = new RingtonePlayingService();
+           hi.play();
+       }
+    }.start();*/
+
+
 }

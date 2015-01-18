@@ -1,38 +1,36 @@
 package com.ankit.alarmclock;
 
+import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.*;
 
 /**
  * Created by aecone on 1/17/15.
  */
-public class RingtonePlayingService extends Service
+public class RingtonePlayingService extends Activity
 {
     private Ringtone ringtone;
-
-    @Override
-    public IBinder onBind(Intent intent)
-    {
-        return null;
+    public RingtonePlayingService() {
+        Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmTone);
     }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        Uri ringtoneUri = Uri.parse(intent.getExtras().getString("ringtone-uri"));
 
-        this.ringtone = RingtoneManager.getRingtone(this, ringtoneUri);
+    public void play()
+    {
         ringtone.play();
 
-        return START_NOT_STICKY;
     }
-    @Override
-    public void onDestroy()
+
+    public void stop()
     {
         ringtone.stop();
     }
+
 }
 

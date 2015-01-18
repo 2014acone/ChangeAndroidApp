@@ -27,8 +27,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         //Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         //ringtone = RingtoneManager.getRingtone(context, alarmUri);
         //ringtone.play();
-        Intent i = new Intent(context, AlarmRing.class);
-        context.startService(i);
+        //Intent i = new Intent(context, AlarmRing.class);
+        //context.startService(i);
         //Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         //Intent startIntent = new Intent(context, RingtonePlayingService.class);
         //startIntent.putExtra("ringtone-uri", ringtoneUri);
