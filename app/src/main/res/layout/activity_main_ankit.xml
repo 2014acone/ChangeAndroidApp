@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:id = "@+id/timeChooser"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@style/Base.TextAppearance.AppCompat" />
 
 </RelativeLayout>

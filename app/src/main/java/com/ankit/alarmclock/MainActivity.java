@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,6 +16,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +32,8 @@ import java.util.GregorianCalendar;
 public class MainActivity extends Activity{//FragmentActivity implements TimePickerDialog.OnTimeSetListener,
         //DatePickerDialog.OnDateSetListener
     //private int pickerHour = 0, pickerMin = 0, pickerDay = 0, pickerMonth = -1, pickerYear = 0;
-
+    //Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+   // Ringtone ringtone;
     AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     private TimePicker timeChooser;
@@ -57,15 +62,20 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, timeChooser.getCurrentHour());
         calendar.set(Calendar.MINUTE, timeChooser.getCurrentMinute());
-        Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        //int hour = timeChooser.getCurrentHour()*60*60*1000;
+        //int minute = timeChooser.getCurrentMinute()*60*1000;
+        //int totalTime = hour+minute;
+        Intent myIntent = new Intent(this, AlarmReceiver.class);
         Toast.makeText(this, "Alarm Scheduled", Toast.LENGTH_SHORT).show();
-        pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,myIntent, 0);
+        pendingIntent = PendingIntent.getBroadcast(this,0,myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+       //Log.d("thing", " " + alarmManager );
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        //alarmManager.cancel(pendingIntent);
         Intent intent = new Intent(this, Main.class);
         startActivity(intent);
     }
-
-   /* public void scheduleAlarm(View v){
+/*
+   public void scheduleAlarm(View v){
         Long time = new GregorianCalendar().getTimeInMillis()+5*1000;
         long alarmTime = (time - new GregorianCalendar().getTimeInMillis())/1000;
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
@@ -74,7 +84,7 @@ public class MainActivity extends Activity{//FragmentActivity implements TimePic
                 PendingIntent.FLAG_UPDATE_CURRENT));
         Toast.makeText(this, "Alarm Scheduled for " + alarmTime + " seconds",Toast.LENGTH_LONG).show();
     }
-
+/*
     public void showTimePickerDialog(View v){
         android.app.FragmentManager fm = this.getFragmentManager();
         android.app.DialogFragment newFragment = new TimePickerFragment();

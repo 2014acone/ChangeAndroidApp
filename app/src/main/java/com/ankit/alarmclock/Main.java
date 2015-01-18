@@ -1,10 +1,14 @@
 package com.ankit.alarmclock;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -19,8 +23,9 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.util.Log;
 
-import org.apache.commons.logging.Log;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -37,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Main extends ActionBarActivity {
+public class Main extends FragmentActivity {
     Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,37 +57,43 @@ public class Main extends ActionBarActivity {
     }
 
    public void stop(View view){
-       Intent intent = new Intent(this, AlarmReceiver.class);
+       RingtoneManager ringtoneManager = new RingtoneManager(Main.this);
+
+       ringtoneManager.stopPreviousRingtone();
+       Intent intent = new Intent(Main.this, AlarmReceiver.class);
        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+       //pendingIntent.cancel();
        alarmManager.cancel(pendingIntent);
-       Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_LONG).show();
-       //Intent intent2 = new Intent(this, MainActivity.class);
-       //startActivity(intent2);
-       Intent stopIntent = new Intent(this, RingtonePlayingService.class);
-       this.stopService(stopIntent);
+       Log.d("thing2", " "+ pendingIntent.describeContents());
+       Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
 
-
-
-
-
+       Intent i = new Intent(this, AlarmRing.class);
+       stopService(i);
+       //Intent stopIntent = new Intent(this, RingtonePlayingService.class);
+       //this.stopService(stopIntent);
+       Intent intent2 = new Intent(this, MainActivity.class);
+       startActivity(intent2);
    }
-
 
     public void snooze(View view){
         Intent intent = new Intent(this, HTTPPostActivity.class);
         //Intent intent2 = new Intent(this, MainActivity.class);
-        startActivity(intent);
         //startActivity(intent2);
-        Toast.makeText(this, "Alarm Snoozed", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Alarm Snoozed", Toast.LENGTH_SHORT).show();
         //startActivity(intent2);
         Intent intent2 = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent2, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+       // pendingIntent.cancel();
         alarmManager.cancel(pendingIntent);
-
-        Intent stopIntent = new Intent(this, RingtonePlayingService.class);
-        this.stopService(stopIntent);
+        RingtoneManager ringtoneManager = new RingtoneManager(Main.this);
+        ringtoneManager.stopPreviousRingtone();
+        Intent i = new Intent(this, AlarmRing.class);
+        stopService(i);
+        //Intent stopIntent = new Intent(this, RingtonePlayingService.class);
+        //this.stopService(stopIntent);
+        startActivity(intent);
         /*Date date = new java.util.Date();
 
         HttpClient client = new DefaultHttpClient();

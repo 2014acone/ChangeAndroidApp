@@ -9,7 +9,7 @@
     tools:context=".Main$PlaceholderFragment"
     android:clickable="true"
     style="@style/Theme.AppCompat.Light"
-    android:background="@color/salmon"
+    android:background="@color/orange"
     android:focusableInTouchMode="true"
     android:focusable="true"
     android:id="@+id/layout">
