@@ -49,7 +49,7 @@ public class HTTPPostActivity extends Activity {
         HttpPost httpPost = new HttpPost("https://api.venmo.com/v1/payments");
         //Post Data
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-        pairs.add(new BasicNameValuePair("access_token", "NSLYQ8zykgJKVzqfCLVxVZN6Qaw5SpKG"));
+        pairs.add(new BasicNameValuePair("access_token", ""));
         pairs.add(new BasicNameValuePair("email", "ank.h.shah@gmail.com"));
         pairs.add(new BasicNameValuePair("note","Sent: "+date+" via CHANGE." ));
         pairs.add(new BasicNameValuePair("amount", "0.01"));
